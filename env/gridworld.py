@@ -33,7 +33,6 @@ class PreyAlgoEnv(ParallelEnv):
         infos = {agent:{} for agent in self.agents}
         return observations, infos
     
-
     def move(self, pos, action):
         move_map = {
             0: (0, 0),   # stay 
@@ -55,10 +54,18 @@ class PreyAlgoEnv(ParallelEnv):
         terminations = {agent: False for agent in self.agents}
         truncations = {agent: False for agent in self.agents}
         rewards = {agent: -0.1 for agent in self.agents}
-        if any(terminations.values()):
-            self.agents=[]
+        is_caught = False
+        for agent in self.agents:
+            if self.predator_pos[agent] == self.prey_pos:
+                rewards[agent] += 10.0
+                is_caught = True
+                break
         observations = {agent: self._get_obs(agent) for agent in self.agents}
         infos = {agent:{} for agent in self.agents}
+        if is_caught:
+            for agent in self.agents:
+                terminations[agent] = True
+            self.agents = []
         return observations, rewards, terminations, truncations, infos
     
     def _get_obs(self, agent):
