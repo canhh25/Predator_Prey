@@ -1,4 +1,4 @@
-# Predator-Prey Gridworld: Multi-Agent System Environment
+# Predator-Prey Gridworld: Multi-Agent System
 
 Dự án mô phỏng bài Predator-Prey trong không gian dạng lưới, được xây dựng dựa trên chuẩn API `ParallelEnv` của PettingZoo. 
 
