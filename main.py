@@ -21,5 +21,7 @@ def main():
         obs, rewards, terminations, truncations, infos = env.step(actions)
         time.sleep(2) 
     print(f"Game over! Total steps: {step_count}")
+    for agent, r in rewards.items():
+            print(f"  - {agent}: {r}")
 if __name__ == "__main__":
     main()

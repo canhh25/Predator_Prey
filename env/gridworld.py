@@ -2,10 +2,11 @@ import functools
 import numpy as np
 from pettingzoo import ParallelEnv
 from gymnasium.spaces import Discrete, Box
+import pygame
 class GridWorldEnv(ParallelEnv):
     metadata = {'render_modes': ['text'], "name":"gridworld_v0"}
 
-    def __init__(self, grid_size = 8, num_predator = 10):
+    def __init__(self, grid_size = 8, num_predator = 5):
         self.grid_size = grid_size
         self.num_predator = num_predator
         self.possible_agents = [f"predator_{i}" for i in range(num_predator)]
@@ -75,15 +76,69 @@ class GridWorldEnv(ParallelEnv):
         return np.array(obs, dtype=np.int32)
     
     def render(self):
-        grid = [["." for _ in range(self.grid_size)] for _ in range(self.grid_size)]
+        window_size = 512
+        cell_size = window_size // self.grid_size
 
-        px, py = self.prey_pos
-        grid[px][py] = "P"
-    
+        if not hasattr(self, 'window'):
+            pygame.init()
+            pygame.display.set_caption("Predator vs Prey - Multi-Agent RL")
+            self.window = pygame.display.set_mode((window_size, window_size))
+            self.clock = pygame.time.Clock()
+            
+            # --- MỚI: Khởi tạo bộ Font chữ để vẽ số ---
+            pygame.font.init()
+            # Kích thước chữ bằng một nửa ô vuông cho vừa vặn
+            self.font = pygame.font.SysFont('Arial', cell_size // 2, bold=True)
+
+        self.window.fill((255, 255, 255))
+
+        # Vẽ lưới
+        for x in range(0, window_size, cell_size):
+            pygame.draw.line(self.window, (200, 200, 200), (x, 0), (x, window_size))
+        for y in range(0, window_size, cell_size):
+            pygame.draw.line(self.window, (200, 200, 200), (0, y), (window_size, y))
+
+        # --- MỚI: Bảng màu cho các con cá mập ---
+        # (Đỏ, Tím, Cam, Xanh lá, Hồng...) Bạn có thể thêm bao nhiêu màu tùy thích
+        predator_colors = [(255, 50, 50)]
+
+        # Vẽ cá mập
         for agent, (x, y) in self.predator_pos.items():
-            grid[x][y] = "X"
+            rect = pygame.Rect(y * cell_size, x * cell_size, cell_size, cell_size)
+            
+            # Lấy số ID của cá mập (VD: "predator_1" -> lấy số 1)
+            idx = int(agent.split('_')[1])
+            
+            # Chọn màu dựa theo ID (dùng % để nếu số lượng cá mập nhiều hơn số màu thì nó tự lặp lại)
+            color = predator_colors[idx % len(predator_colors)]
+            
+            # 1. Vẽ hình vuông với màu riêng
+            pygame.draw.rect(self.window, color, rect)
+            
+            # 2. Vẽ số ID (màu trắng) đè lên trên hình vuông
+            text_surface = self.font.render(str(idx), True, (255, 255, 255))
+            text_rect = text_surface.get_rect(center=rect.center) # Căn giữa ô vuông
+            self.window.blit(text_surface, text_rect)
 
-        for row in grid:
-            print(" ".join(row))
+        # Vẽ con mồi
+        if self.prey_pos:
+            px, py = self.prey_pos
+            center = (py * cell_size + cell_size // 2, px * cell_size + cell_size // 2)
+            radius = cell_size // 2 - 4
+            
+            # Vẽ hình tròn màu Xanh dương cho con mồi
+            pygame.draw.circle(self.window, (0, 150, 255), center, radius)
+            
+            # Vẽ thêm chữ "P" lên người con mồi cho ngầu
+            prey_text = self.font.render("P", True, (255, 255, 255))
+            prey_rect = prey_text.get_rect(center=center)
+            self.window.blit(prey_text, prey_rect)
+
+        pygame.display.update()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
 
     print()
