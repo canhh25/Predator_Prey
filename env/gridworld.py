@@ -2,11 +2,10 @@ import functools
 import numpy as np
 from pettingzoo import ParallelEnv
 from gymnasium.spaces import Discrete, Box
-
-class PreyAlgoEnv(ParallelEnv):
+class GridWorldEnv(ParallelEnv):
     metadata = {'render_modes': ['text'], "name":"gridworld_v0"}
 
-    def __init__(self, grid_size = 8, num_predator =3):
+    def __init__(self, grid_size = 8, num_predator = 10):
         self.grid_size = grid_size
         self.num_predator = num_predator
         self.possible_agents = [f"predator_{i}" for i in range(num_predator)]
@@ -47,9 +46,9 @@ class PreyAlgoEnv(ParallelEnv):
         return (new_x,new_y)
 
     def step(self, actions):
+        prey_action = actions.pop("prey", np.random.choice([0, 1, 2, 3, 4]))
         for agent, action in actions.items(): 
             self.predator_pos[agent] = self.move(self.predator_pos[agent], action)
-        prey_action = np.random.choice(5)
         self.prey_pos = self.move(self.prey_pos, prey_action)
         terminations = {agent: False for agent in self.agents}
         truncations = {agent: False for agent in self.agents}
