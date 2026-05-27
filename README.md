@@ -1,8 +1,8 @@
 # Predator-Prey Gridworld: Multi-Agent System Environment
 
-Dự án mô phỏng bài toán rượt đuổi (Predator-Prey) trong không gian dạng lưới (Gridworld), được xây dựng dựa trên chuẩn API `ParallelEnv` của PettingZoo. 
+Dự án mô phỏng bài Predator-Prey trong không gian dạng lưới, được xây dựng dựa trên chuẩn API `ParallelEnv` của PettingZoo. 
 
-Môi trường được thiết kế như một nền tảng cơ sở (baseline) để thử nghiệm, đánh giá và huấn luyện các thuật toán Học tăng cường đa thể (Multi-Agent Reinforcement Learning - MARL) và các mô hình LLM-as-Agent.
+Môi trường được thiết kế như một nền tảng cơ sở để thử nghiệm, đánh giá và huấn luyện các thuật toán Multi-Agent Reinforcement Learning (MARL).
 
 ## Cấu trúc thư mục
 
