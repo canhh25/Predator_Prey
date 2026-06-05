@@ -12,7 +12,7 @@ Kiến trúc dự án:
 Predator_Prey/
 │
 ├── env/
-│   └── gridworld.py       # Chứa class GridWorldEnv quản lý tọa độ, không gian và luật lệ.
+│   └── world.py       # Chứa class GridWorldEnv quản lý tọa độ, không gian và luật lệ.
 │
 ├── agents/
 │   ├── predator_algo.py   # Bộ não của các Predators (Cá mập).
