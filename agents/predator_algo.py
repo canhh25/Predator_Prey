@@ -6,12 +6,23 @@ class Predator:
         self.idx = int(agent_name.split('_')[1])
 
     def get_action(self, obs):
-        my_pos = obs[self.idx * 2 : self.idx * 2 + 2]
-        prey_pos = obs[-2:]
-        direction = prey_pos - my_pos
-        norm = np.linalg.norm(direction)
+        rel_prey_pos = obs[-2:] 
+        norm = np.linalg.norm(rel_prey_pos)
         if norm > 0:
-            action = direction / norm * 0.6
+            direction = rel_prey_pos / norm
         else:
-            action = np.array([0.0, 0.0])
-        return action.astype(np.float32)
+            direction = np.array([0.0, 0.0])
+            
+        action = np.zeros(5, dtype=np.float32)
+        power = 0.8
+        
+        if direction[0] > 0:
+            action[1] = direction[0] * power  
+        else:
+            action[2] = -direction[0] * power
+            
+        if direction[1] > 0:
+            action[3] = direction[1] * power  
+        else:
+            action[4] = -direction[1] * power
+        return action
