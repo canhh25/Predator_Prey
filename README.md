@@ -1,6 +1,6 @@
 # Predator-Prey Gridworld: Multi-Agent System
 
-Dự án mô phỏng bài Predator-Prey trong không gian dạng lưới, được xây dựng dựa trên chuẩn API `ParallelEnv` của PettingZoo. 
+Dự án mô phỏng bài Predator-Prey trong không gian liên tục, được xây dựng dựa trên chuẩn API `ParallelEnv` của PettingZoo. 
 
 Môi trường được thiết kế như một nền tảng cơ sở để thử nghiệm, đánh giá và huấn luyện các thuật toán Multi-Agent Reinforcement Learning (MARL).
 
@@ -12,7 +12,7 @@ Kiến trúc dự án:
 Predator_Prey/
 │
 ├── env/
-│   └── gridworld.py       # Chứa class GridWorldEnv quản lý tọa độ, không gian và luật lệ.
+│   └── world.py       # Chứa class GridWorldEnv quản lý tọa độ, không gian và luật lệ.
 │
 ├── agents/
 │   ├── predator_algo.py   # Bộ não của các Predators (Cá mập).
