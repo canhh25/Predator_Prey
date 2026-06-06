@@ -4,6 +4,7 @@ class Predator:
     def __init__(self, agent_name):
         self.agent_name = agent_name
         self.idx = int(agent_name.split('_')[1])
+        print(f"Predator {self.idx} here hehehehehe")
 
     def get_action(self, obs):
         rel_prey_pos = obs[-2:] 
