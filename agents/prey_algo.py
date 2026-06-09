@@ -1,9 +1,6 @@
 import numpy as np
 
 class Prey:
-    def __init__(self):
-        print("Prey here hehee catch me if u can.")
-
     def get_action(self, obs):
         my_pos = obs[-4:-2]
         predators = [obs[8:10], obs[10:12], obs[12:14]]
@@ -24,7 +21,6 @@ class Prey:
             direction = total_force / norm
         else:
             direction = np.random.uniform(-1.0, 1.0, size=2)
-            
         action = np.zeros(5, dtype=np.float32)
         power = 1.0
         if direction[0] > 0:

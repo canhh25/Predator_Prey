@@ -1,16 +1,11 @@
 import numpy as np
 
 class Predator:
-    def __init__(self, agent_name):
-        self.agent_name = agent_name
-        self.idx = int(agent_name.split('_')[1])
-        print(f"Predator {self.idx} here hehehehehe")
-
     def get_action(self, obs):
-        rel_prey_pos = obs[-2:] 
-        norm = np.linalg.norm(rel_prey_pos)
+        prey_pos = obs[-2:] 
+        norm = np.linalg.norm(prey_pos)
         if norm > 0:
-            direction = rel_prey_pos / norm
+            direction = prey_pos / norm
         else:
             direction = np.array([0.0, 0.0])
             
