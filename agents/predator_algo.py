@@ -1,24 +1,18 @@
 import numpy as np
 
 class Predator:
+    def __init__(self, agent_id):
+        self.agent_id = agent_id
     def get_action(self, obs):
-        prey_pos = obs[-2:] 
-        norm = np.linalg.norm(prey_pos)
-        if norm > 0:
-            direction = prey_pos / norm
-        else:
-            direction = np.array([0.0, 0.0])
-            
+        direction = np.random.uniform(-1.0, 1.0, size=2)
         action = np.zeros(5, dtype=np.float32)
-        power = 0.8
-        
+        power = 1.0
         if direction[0] > 0:
-            action[1] = direction[0] * power  
+            action[2] = direction[0] * power 
         else:
-            action[2] = -direction[0] * power
-            
+            action[1] = -direction[0] * power  
         if direction[1] > 0:
-            action[3] = direction[1] * power  
+            action[4] = direction[1] * power 
         else:
-            action[4] = -direction[1] * power
+            action[3] = -direction[1] * power
         return action

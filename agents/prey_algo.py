@@ -2,13 +2,13 @@ import numpy as np
 
 class Prey:
     def get_action(self, obs):
-        my_pos = obs[-4:-2]
+        my_pos = obs[2:4]
         predators = [obs[8:10], obs[10:12], obs[12:14]]
         force_pred = np.zeros(2)
         for p_pos in predators:
             dist = np.linalg.norm(my_pos-p_pos)
             if dist < 0.6:
-                force_pred += (p_pos - my_pos) / (dist**2 + 0.001)
+                force_pred += (-p_pos + my_pos) / (dist**2 + 0.001)
         force_wall = np.zeros(2)
         margin = 0.2
         if my_pos[0] < margin: force_wall[0] += (margin - my_pos[0]) * 5
